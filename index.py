@@ -61,15 +61,11 @@ def account():
 @app.route("/read")
 def read():
     Result = ""     
-    collection_ref = db.collection("111")   
-
-    docs = collection_ref.get()
-    for doc in docs:
-        dict = doc.to_dict()
-        if cond in dict["Course"]:
-            Result += format(dict["Leacture"])+"老師開的"+format(dict["Course"])+"課程,每週"+format(dict["Time"])+"於"+format(dict["Room"])+"上課" 
-            
-            return Result
+    collection_ref = db.collection("靜宜資管")    
+    docs = collection_ref.order_by("mail", direction=firestore.Query.DESCENDING).get()    
+    for doc in docs:         
+        Result += "文件內容：{}".format(doc.to_dict()) + "<br>"    
+    return Result
 
 
 #if __name__ == "__main__":
